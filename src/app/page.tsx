@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { BsArrowRightSquare } from "react-icons/bs";
 import { Input } from "./components/Input";
+import { GameCard } from "./components/GameCard";
 
 async function getGame() {
   try {
@@ -18,8 +19,21 @@ async function getGame() {
   }
 }
 
+async function getGamesData() {
+  try {
+    const res = await fetch(`${process.env.NEXT_API_URL}/next-api/?api=games`, {
+      next: { revalidate: 320 },
+    });
+
+    return res.json();
+  } catch (err) {
+    throw new Error("Failed to fetch data");
+  }
+}
+
 export default async function Home() {
   const game: GameProps = await getGame();
+  const data: GameProps[] = await getGamesData();
 
   return (
     <main className="w-full h-screen bg-gradient-to-bl from-stone-100 via-transparent to-yellow-100">
@@ -47,6 +61,16 @@ export default async function Home() {
           </section>
         </Link>
         <Input />
+
+        <h2 className="text-lg font-bold mt-8 mb-5 ">
+          Games you can get to know!
+        </h2>
+
+        <section className="grid gap-7 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+          {data.map((item) => (
+            <GameCard key={item.id} data={item} />
+          ))}
+        </section>
       </Container>
     </main>
   );
