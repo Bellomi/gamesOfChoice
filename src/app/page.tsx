@@ -39,7 +39,7 @@ export default async function Home() {
     <main className="w-full h-screen bg-gradient-to-bl from-stone-100 via-transparent to-yellow-100">
       <Container>
         <h1 className="text-center font-bold text-3xl py-4 mb-5">
-          Separamos um jogo exclusivo pra você
+          We have all the games you like!
         </h1>
         <Link href={`/game/${game.id}`}>
           <section className="w-full bg-black rounded-lg">
